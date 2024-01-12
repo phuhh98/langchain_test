@@ -5,7 +5,6 @@ config({
 })
 
 import express, { NextFunction, Request, Response } from 'express'
-import { employeeSqlAgent } from './langchain/agent'
 import { master } from './langchain/runnable'
 
 async function appStart() {
@@ -29,7 +28,7 @@ async function appStart() {
             >,
             res: Response<{
                 status: number
-                data: { ai_message: string | object; data?: object }
+                data: object
             }>,
             next: NextFunction
         ) => {
@@ -40,10 +39,7 @@ async function appStart() {
 
             return res.json({
                 status: 200,
-                data: {
-                    ai_message: result,
-                    // data: (queried_data as object[])[1],
-                },
+                data: result,
             })
         }
     )
