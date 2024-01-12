@@ -6,6 +6,7 @@ config({
 
 import express, { NextFunction, Request, Response } from 'express'
 import { employeeSqlAgent } from './langchain/agent'
+import { master } from './langchain/runnable'
 
 async function appStart() {
     const app = express()
@@ -34,7 +35,8 @@ async function appStart() {
         ) => {
             const { question } = req.body
 
-            const result = await employeeSqlAgent(question)
+            // const result = await employeeSqlAgent({ question })
+            const result = await master.invoke(question)
 
             return res.json({
                 status: 200,
