@@ -28,14 +28,15 @@ async function appStart() {
             >,
             res: Response<{
                 status: number
-                data: object
+                data: object | string
             }>,
             next: NextFunction
         ) => {
             const { question } = req.body
 
-            // const result = await employeeSqlAgent({ question })
-            const result = await master.invoke(question)
+            const result = await master.invoke({ question })
+
+            console.log(result)
 
             return res.json({
                 status: 200,
