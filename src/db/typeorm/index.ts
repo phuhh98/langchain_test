@@ -11,7 +11,7 @@ const plasticWasteTypeORMDataSource = new DataSource({
     entities: [OriginalDocument, PlasticWasteEmbedding],
     host: process.env.PG_HOST,
     password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
+    port: parseInt(process.env.PG_PORT),
     type: 'postgres',
     username: process.env.PG_USER
 })
@@ -27,7 +27,7 @@ const plasticWasteConnectionOptions: PoolConfig = {
     database: process.env.PG_VECTOR_DB,
     host: process.env.PG_HOST,
     password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
+    port: parseInt(process.env.PG_PORT),
     user: process.env.PG_USER
 }
 

@@ -4,7 +4,10 @@ export function createSHA256(data: BinaryLike) {
     return createHash('sha256').update(data).digest('hex')
 }
 
-export const splitIntoBatches = <T>(arrayData: Array<T>, batchSize: number = process.env.MAX_EMBEDDING_BATCH_SIZE) => {
+export const splitIntoBatches = <T>(
+    arrayData: Array<T>,
+    batchSize: number = parseInt(process.env.MAX_EMBEDDING_BATCH_SIZE)
+) => {
     const arrayLength = arrayData.length
 
     const devidedBatches: T[][] = []

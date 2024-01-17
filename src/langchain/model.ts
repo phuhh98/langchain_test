@@ -14,7 +14,7 @@ export const gptModel = () =>
     })
 
 export const embeddingModel = new OpenAIEmbeddings({
-    batchSize: process.env.MAX_EMBEDDING_BATCH_SIZE,
+    batchSize: parseInt(process.env.MAX_EMBEDDING_BATCH_SIZE),
     modelName: 'text-embedding-ada-002',
     openAIApiKey: process.env.OPENAI_API_KEY
 })

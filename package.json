@@ -2,14 +2,14 @@
     "name": "test",
     "version": "1.0.0",
     "description": "",
-    "main": "src/app.js",
+    "main": "src/app.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "concurrently \"npm run dev-lint\" \"npm run dev-server\"",
         "dev-server": "nodemon --exec \"npm start\" -e ts",
         "dev-lint": "nodemon --exec \"npm run lint\" -e ts",
         "lint": "eslint ./src --fix",
-        "start": "tsc & node ./dist/app.js",
+        "start": "ts-node --project ./tsconfig.json ./src/app.ts",
         "build": "rm -rf ./dist && tsc"
     },
     "author": "",
