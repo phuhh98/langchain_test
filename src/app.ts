@@ -1,6 +1,7 @@
-import './types/environment'
 import { config } from 'dotenv'
 import 'reflect-metadata'
+
+import './types/environment'
 config({
     path: './.env'
 })

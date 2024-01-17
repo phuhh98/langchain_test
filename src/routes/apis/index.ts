@@ -2,7 +2,6 @@ import { Request, Response, Router } from 'express'
 import formidable /*, { errors as formidableErrors }*/ from 'formidable'
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { error } from 'node:console'
 import fs from 'node:fs'
 import path from 'node:path'
 import { rimraf } from 'rimraf'
@@ -126,12 +125,8 @@ apiRouter.post(
                 await plasticWasteVectorStore.addDocuments(batch)
             }
 
-            const results = await plasticWasteVectorStore.similaritySearch('fore word indonesia', 5)
-
-            console.log(results)
-
             return res.json({
-                data: results,
+                data: 'uploaded',
                 status: 200
             })
         } catch (error) {

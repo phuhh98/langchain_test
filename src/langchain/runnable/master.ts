@@ -1,4 +1,4 @@
-import { RunnableMap } from '@langchain/core/runnables'
+import { RunnableBranch, RunnableMap } from '@langchain/core/runnables'
 import { JsonOutputFunctionsParser } from 'langchain/output_parsers'
 
 import { chatModel } from '../model'
@@ -9,6 +9,9 @@ import {
     sqlAssistantOuput
 } from '../openAI_functions'
 import { generalPrompt, geolocationPrompt } from '../prompts'
+import { contextRAGChain } from './contextRAG'
+
+const dbKeywordsRegex = new RegExp(['employee', 'title', 'salary', 'salaries', 'department', 'manage'].join('|'))
 
 const generalAssisstantChain = generalPrompt
     .pipe(
@@ -18,6 +21,12 @@ const generalAssisstantChain = generalPrompt
         })
     )
     .pipe(new JsonOutputFunctionsParser<SQLAssisstantResponse>())
+
+// Switcher to switch between prompt for db and general or context RAG
+const contextSwitcherChain = RunnableBranch.from([
+    [(input: { question: string }) => dbKeywordsRegex.test(input.question.toLowerCase()), generalAssisstantChain],
+    contextRAGChain
+])
 
 const geolocationChain = geolocationPrompt
     .pipe(
@@ -32,10 +41,12 @@ type InputParams = Parameters<typeof generalAssisstantChain.invoke>[0] | Paramet
 
 type OutputParams = {
     location: Awaited<ReturnType<typeof geolocationChain.invoke>>
-    message: Awaited<ReturnType<typeof generalAssisstantChain.invoke>>
+    message:
+        | Awaited<ReturnType<typeof contextRAGChain.invoke>>
+        | Awaited<ReturnType<typeof generalAssisstantChain.invoke>>
 }
 
 export const master = RunnableMap.from<InputParams, OutputParams>({
     location: geolocationChain,
-    message: generalAssisstantChain
+    message: contextSwitcherChain
 })
