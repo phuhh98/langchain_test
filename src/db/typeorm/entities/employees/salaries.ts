@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm'
 
 import { Employee } from './index'
 
@@ -9,12 +9,12 @@ export class Salary {
     @JoinColumn()
     emp_no: Employee
 
-    @Column({ type: 'int', nullable: false })
-    salary: number
-
-    @PrimaryColumn({ type: 'date', nullable: false })
+    @PrimaryColumn({ nullable: false, type: 'date' })
     from_date: Date
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'int' })
+    salary: number
+
+    @Column({ nullable: false, type: 'date' })
     to_date: Date
 }

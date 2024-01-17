@@ -1,9 +1,6 @@
 import { ChatPromptTemplate } from '@langchain/core/prompts'
-import {
-    generalSystemPrompt,
-    geoLocationSystemPrompt,
-    userQuestionPrompt,
-} from './messageComponents'
+
+import { generalSystemPrompt, geoLocationSystemPrompt, userQuestionPrompt } from './messageComponents'
 
 export const generalPrompt = ChatPromptTemplate.fromMessages<{
     question: string

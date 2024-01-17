@@ -1,68 +1,44 @@
-import { ColumnType, DataSource, DataSourceOptions } from 'typeorm'
-import {
-    Department,
-    DepartmentEmployee,
-    DepartmentManager,
-    Employee,
-    Salary,
-    Title,
-} from './entities/employees'
-import { Chunks, FileUploadTrack } from './entities/plastic_waste'
-
 import { PGVectorStore } from '@langchain/community/vectorstores/pgvector'
 import { PoolConfig } from 'pg'
-import { embeddingModel } from '../../langchain'
+import { DataSource } from 'typeorm'
 
-export const employeeDataSource = new DataSource({
-    type: 'mysql',
-    database: 'employees',
-    username: 'root',
-    password: 'admin',
-    entities: [
-        Employee,
-        Department,
-        DepartmentEmployee,
-        DepartmentManager,
-        Title,
-        Salary,
-    ],
-    host: '127.0.0.1',
-    port: 3306,
+import { embeddingModel } from '../../langchain'
+import { OriginalDocument, PlasticWasteEmbedding } from './entities/pgvector'
+
+// TypeORM datasource
+const plasticWasteTypeORMDataSource = new DataSource({
+    database: process.env.PG_VECTOR_DB,
+    entities: [OriginalDocument, PlasticWasteEmbedding],
+    host: process.env.PG_HOST,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+    type: 'postgres',
+    username: process.env.PG_USER
 })
 
-export const dataSourceFactory = (options?: DataSourceOptions): DataSource => {
-    const dataSource = new DataSource(options)
-    dataSource.driver.supportedDataTypes.push('vector' as ColumnType)
-    dataSource.driver.withLengthColumnTypes.push('vector' as ColumnType)
-    return dataSource
+export const connectDB = async () => {
+    await plasticWasteTypeORMDataSource.initialize()
 }
 
-// export const plasticWasteDataSource = dataSourceFactory({
-//     type: 'postgres',
-//     database: 'plastic_waste',
-//     username: 'postgres',
-//     password: 'admin123',
-//     entities: [Chunks, FileUploadTrack],
-//     host: '127.0.0.1',
-//     port: 5432,
-// })
+export const OriginalDocumentRepository = plasticWasteTypeORMDataSource.getRepository(OriginalDocument)
 
+// vectorStore wrapper
 const plasticWasteConnectionOptions: PoolConfig = {
-    database: 'plastic_waste',
-    user: 'postgres',
-    password: 'admin123',
-    host: '127.0.0.1',
-    port: 5432,
+    database: process.env.PG_VECTOR_DB,
+    host: process.env.PG_HOST,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+    user: process.env.PG_USER
 }
 
 export const plasticWasteVectorStoreCreator = async () =>
     PGVectorStore.initialize(embeddingModel, {
-        postgresConnectionOptions: plasticWasteConnectionOptions,
-        tableName: 'chunks',
         columns: {
-            idColumnName: 'id', // big int
-            vectorColumnName: 'embedding', // vector
             contentColumnName: 'content', // string
+            idColumnName: 'id', // big int
             metadataColumnName: 'metadata', // json
+            vectorColumnName: 'embedding' // vector
         },
+        postgresConnectionOptions: plasticWasteConnectionOptions,
+        tableName: 'plastic_waste_chunks'
     })

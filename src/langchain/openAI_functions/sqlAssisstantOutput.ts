@@ -1,32 +1,32 @@
 import { FunctionDefinition } from '@langchain/core/dist/language_models/base'
 
 export const sqlAssistantOuput: FunctionDefinition = {
-    name: 'sqlAssistantOuput',
     description: 'parse response of the sql assissant in to JSON object format',
+    name: 'sqlAssistantOuput',
     parameters: {
-        type: 'object',
         properties: {
-            answer: {
-                type: 'string',
-                description: 'the answer for unrelevant to SQL or database',
-            },
             SQL_query: {
-                type: 'string',
                 description: 'the SQL query',
+                type: 'string'
+            },
+            answer: {
+                description: 'the answer for unrelevant to SQL or database',
+                type: 'string'
             },
             explaination: {
-                type: 'string',
                 description: 'a short explaination for the queried',
-            },
+                type: 'string'
+            }
         },
-    },
+        type: 'object'
+    }
 }
 
 export type SQLAssisstantResponse =
     | {
-          answer: string
-      }
-    | {
           SQL_query: string
           explaination: string
+      }
+    | {
+          answer: string
       }

@@ -1,75 +1,67 @@
-import {
-    PrimaryColumn,
-    Column,
-    Unique,
-    Entity,
-    OneToOne,
-    JoinColumn,
-    ManyToOne,
-} from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, Unique } from 'typeorm'
 
 @Entity({ name: 'employees' })
 export class Employee {
-    @PrimaryColumn({ type: 'int', nullable: false })
-    emp_no: number
-
-    @Column({ type: 'timestamptz', nullable: false })
+    @Column({ nullable: false, type: 'timestamptz' })
     birth_date: Date
 
-    @Column({ type: 'varchar', length: 14, nullable: false })
+    @PrimaryColumn({ nullable: false, type: 'int' })
+    emp_no: number
+
+    @Column({ length: 14, nullable: false, type: 'varchar' })
     first_name: string
 
-    @Column({ type: 'varchar', length: 16, nullable: false })
-    last_name: string
-
-    @Column({ type: 'enum', enum: ['M', 'F'], nullable: false })
+    @Column({ enum: ['M', 'F'], nullable: false, type: 'enum' })
     gender: string
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'date' })
     hire_date: Date
+
+    @Column({ length: 16, nullable: false, type: 'varchar' })
+    last_name: string
 }
 
 @Entity({ name: 'departments' })
 @Unique(['dept_name'])
 export class Department {
-    @PrimaryColumn({ type: 'char', length: 4, nullable: false })
-    dept_no: string
-
-    @Column({ type: 'varchar', length: 40, nullable: false })
+    @Column({ length: 40, nullable: false, type: 'varchar' })
     dept_name: string
+
+    @PrimaryColumn({ length: 4, nullable: false, type: 'char' })
+    dept_no: string
 }
 
 @Entity({ name: 'dept_manager' })
 export class DepartmentManager {
     @PrimaryColumn()
-    @ManyToOne(() => Employee, (employee) => employee.emp_no)
-    emp_no: Employee
-
-    @PrimaryColumn()
     @ManyToOne(() => Department, (department) => department.dept_no)
     dept_no: Department
 
-    @Column({ type: 'date', nullable: false })
+    @PrimaryColumn()
+    @ManyToOne(() => Employee, (employee) => employee.emp_no)
+    emp_no: Employee
+
+    @Column({ nullable: false, type: 'date' })
     from_date: Date
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'date' })
     to_date: Date
 }
 
 @Entity({ name: 'dept_emp' })
 export class DepartmentEmployee {
     @PrimaryColumn()
-    @ManyToOne(() => Employee, (employee) => employee.emp_no)
-    emp_no: Employee
-
-    @PrimaryColumn()
     @ManyToOne(() => Department, (department) => department.dept_no)
     dept_no: Department
 
-    @Column({ type: 'date', nullable: false })
+    @PrimaryColumn()
+    @ManyToOne(() => Employee, (employee) => employee.emp_no)
+    emp_no: Employee
+
+    @Column({ nullable: false, type: 'date' })
     from_date: Date
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'date' })
     to_date: Date
 }
 
@@ -79,13 +71,13 @@ export class Title {
     @JoinColumn()
     emp_no: Employee
 
-    @Column({ type: 'varchar', length: 50, nullable: false })
-    title: string
-
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'date' })
     from_date: Date
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ length: 50, nullable: false, type: 'varchar' })
+    title: string
+
+    @Column({ nullable: false, type: 'date' })
     to_date: Date
 }
 
@@ -95,12 +87,12 @@ export class Salary {
     @JoinColumn()
     emp_no: Employee
 
-    @Column({ type: 'int', nullable: false })
-    salary: number
-
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'date' })
     from_date: Date
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ nullable: false, type: 'int' })
+    salary: number
+
+    @Column({ nullable: false, type: 'date' })
     to_date: Date
 }

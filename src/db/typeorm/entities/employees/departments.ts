@@ -1,11 +1,11 @@
-import { PrimaryColumn, Column, Unique, Entity } from 'typeorm'
+import { Column, Entity, PrimaryColumn, Unique } from 'typeorm'
 
 @Entity({ name: 'departments' })
 @Unique(['dept_name'])
 export class Department {
-    @PrimaryColumn({ type: 'char', length: 4, nullable: false })
-    dept_no: string
-
-    @Column({ type: 'varchar', length: 40, nullable: false })
+    @Column({ length: 40, nullable: false, type: 'varchar' })
     dept_name: string
+
+    @PrimaryColumn({ length: 4, nullable: false, type: 'char' })
+    dept_no: string
 }
