@@ -96,8 +96,8 @@ apiRouter.post(
 
             // Prepare to split file data into chunks
             const splitter = new RecursiveCharacterTextSplitter({
-                chunkOverlap: 400,
-                chunkSize: 2000
+                chunkOverlap: 300,
+                chunkSize: 1200
             })
 
             const fileDataLoader = new PDFLoader(files.file[0].filepath, {

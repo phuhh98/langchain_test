@@ -11,7 +11,7 @@ export const contextRAGChain = RunnableSequence.from([
     {
         context: async (input: { question: string }) => {
             const vectorStoreRetriever = (await plasticWasteVectorStoreCreator()).asRetriever({
-                k: 3,
+                k: 5,
                 searchType: 'similarity'
             })
 
