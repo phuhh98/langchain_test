@@ -8,4 +8,5 @@ export const contextRAGSystemPrompt = SystemMessagePromptTemplate.fromTemplate(`
 	
 	Base on the provided context, answer user question whil keeping the tone and content of the original context in the answer
 	as good as possible.
+	If you don't know the answer, tell me that you don't know, don't try to make up any answer.
 `)

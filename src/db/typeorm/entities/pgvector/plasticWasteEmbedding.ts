@@ -5,8 +5,8 @@ export class PlasticWasteEmbedding {
     @Column({ nullable: false, type: 'text' })
     content: string
 
-    // @Column({ nullable: false, type: 'vector' })
-    // embedding: number[][]
+    @Column({ nullable: false, type: 'text' })
+    embedding: string
 
     @PrimaryColumn({ nullable: false, type: 'bigint' })
     id: bigint
