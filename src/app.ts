@@ -6,6 +6,7 @@ config({
     path: './.env'
 })
 
+import cors from 'cors'
 import express from 'express'
 
 import { connectDB } from './db'
@@ -14,6 +15,7 @@ import { router } from './routes'
 async function appStart() {
     await connectDB()
     const app = express()
+    app.use(cors())
     app.use(express.json())
 
     app.use(router)
