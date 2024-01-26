@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:18
+FROM node:18-alpine
 
 LABEL version="1.0"
 LABEL description="docker container for ease of use with backend local dev server"

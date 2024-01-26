@@ -8,16 +8,20 @@ export const geolocationExtractor: FunctionDefinition = {
             geolocation: {
                 description: 'contain geolocation of a place contain cordinates and name of the place',
                 properties: {
-                    latitude: {
+                    ISO_A3: {
+                        description: 'A3 ISO code of the country that this place belonged to',
+                        type: 'string'
+                    },
+                    lat: {
                         description: 'latitude value',
                         type: 'number'
                     },
-                    longitude: {
+                    lng: {
                         description: 'longitude value',
                         type: 'number'
                     },
                     place_name: {
-                        description: 'location name',
+                        description: 'the place name',
                         type: 'string'
                     }
                 },
@@ -31,8 +35,9 @@ export const geolocationExtractor: FunctionDefinition = {
 
 export type GeolocationResponse = {
     geolocation: {
-        latitude: number
-        longitude: number
+        ISO_A3: string
+        lat: number
+        lng: number
         place_name: string
     }
 }
